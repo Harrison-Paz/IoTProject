@@ -11,9 +11,10 @@
             <div class="card-body">
                 <div class="">
                     <div class="input-group mb-3">
-                        <select class="form-select" id="inputGroupSelect01">
+                        <select class="form-select" id="sprinkler">
+                            <option>...</option>
                             {% for sprinkler in sprinklers %}
-                                <option value="{{sprinkler.id}}">{{sprinkler.codSprinkler}}</option>
+                                <option value="{{sprinkler.id}}" id="">{{sprinkler.codSprinkler}}</option>
                             {% endfor %}
                         </select>
                         <label class="input-group-text" for="inputGroupSelect01">Aspersor</label>
@@ -35,20 +36,31 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-horizontal">
+                            <form class="form form-horizontal" method="POST" action="{% url 'list_plans' %}">
+                                {% csrf_token %}
                                 <div class="form-body">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label>Programación Inicio</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="datetime-local" id="date" class="form-control" name="fdate">
+                                            <input type="datetime-local" id="date" class="form-control" name="startTime">
                                         </div>
                                         <div class="col-md-4">
                                             <label>Programación fin</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="datetime-local" id="date" class="form-control" name="fdate">
+                                            <input type="datetime-local" id="date" class="form-control" name="endTime">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Aspersor</label>
+                                        </div>
+                                        <div class="col-md-8 form-group">
+                                            <input type="text" id="sp_id" class="form-control" name="sprinkler_id" disabled>
+                                        </div>
+                                        <div class="col-sm-12 d-flex justify-content-end">
+                                            <input type="submit" class="btn btn-primary me-1 mb-1" value="Guardar">
+                                            <!-- <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button> -->
                                         </div>
                                     </div>
                                 </div>
@@ -81,8 +93,13 @@
                                     <td>{{plan.startTime}}</td>
                                     <td>{{plan.endTime}}</td>
                                     <td colspan="2">
-                                        <div class="btn btn-primary me-1 mb-1">Editar</div>
-                                        <div class="btn btn-secondary me-1 mb-1">Eliminar</div>
+                                        <a class="btn btn-danger me-1 mb-1" href="{% url 'delete_plan' plan.id %}" role="button"> Eliminar 
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill"
+                                                viewBox="0 0 16 16">
+                                                <path
+                                                    d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                            </svg>
+                                        </a>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -94,4 +111,13 @@
         </div>
     </section>
 </div>
+<script>
+    sprinkler.addEventListener("change", ()=>{
+        let seleccion = sprinkler.value;
+        let id = document.querySelector('#sp_id');
+        console.log(seleccion);
+        id.value = seleccion;
+        console.log(seleccion);
+    })
+</script>
 {% endblock %}

@@ -6,7 +6,7 @@ from django.db import models
 class Sprinkler(models.Model):
     codSprinkler = models.CharField(max_length=8)
     description = models.CharField(max_length=50)
-    state = models.BooleanField(default=True)
+    state = models.BooleanField(default=False)
 
     def __str__(self):
         return self.codSprinkler
@@ -18,6 +18,3 @@ class Plan(models.Model):
 
     def __str__(self):
         return f"{self.endTime}"
-
-    def was_plan_recently(self):
-        return self.startTime >= timezone.now() - datetime.timedelta(days=1)

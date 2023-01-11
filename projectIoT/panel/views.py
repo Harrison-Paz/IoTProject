@@ -11,45 +11,50 @@ def home(request):
 
 
 #sprinkler
-
-def create_sprinkler(request):
+def view_sprinklers(request):
     if request.method == 'POST':
         form = SprinklerForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('view_sprinklers')
-    else:
-        form = SprinklerForm()
-    context = {'form': form}
-    return render(request, 'create_sprinkler.html', context)
-
-def view_sprinklers(request):
+            return redirect('list_sprinklers')
     sprinklers = Sprinkler.objects.all()
     context = {'sprinklers': sprinklers}
     return render(request, 'sprinkler/view_sprinklers.html', context)
 
 
-def edit_sprinkler(request, sprinkler_id):
-    sprinkler = get_object_or_404(Sprinkler, id=sprinkler_id)
-    if request.method == 'POST':
-        form = SprinklerForm(request.POST, instance=sprinkler)
-        if form.is_valid():
-            sprinkler = form.save()
-            return redirect('view_sprinklers')
-    else:
-        form = SprinklerForm(instance=sprinkler)
-    context = {'form': form}
-    return render(request, 'edit_sprinkler.html', context)
+# def edit_sprinkler(request, id):
+#     sprinkler = get_object_or_404(Sprinkler, id=id)
+#     if request.method == 'POST':
+#         form = SprinklerForm(request.POST, instance=sprinkler)
+#         if form.is_valid():
+#             sprinkler = form.save()
+#             return redirect('list_sprinklers')
+#     else:
+#         form = SprinklerForm(instance=sprinkler)
+#     context = {'form': form}
+#     return render(request, 'sprinkler/view_Sprinklers.html', context)
 
-def delete_sprinkler(request, sprinkler_id):
-    sprinkler = get_object_or_404(Sprinkler, id=sprinkler_id)
+def delete_sprinkler(request, id):
+    sprinkler = get_object_or_404(Sprinkler, id=id)
     sprinkler.delete()
-    return redirect('view_sprinklers')
+    return redirect('list_sprinklers')
 
 
 # Plans
+
 def view_plans(request):
+    if request.method == 'POST':
+        form = PlanForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('list_plans')
     plans = Plan.objects.all()
     sprinklers = Sprinkler.objects.all()
-    context = {'sprinklers': sprinklers, 'plans':plans}
+    context = {'sprinklers': sprinklers, 'plans': plans}
     return render(request, 'plan/view_plans.html', context)
+
+
+def delete_plan(request, id):
+    sprinkler = get_object_or_404(Plan, id=id)
+    sprinkler.delete()
+    return redirect('list_plans')
