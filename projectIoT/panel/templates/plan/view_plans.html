@@ -1,0 +1,98 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+<div class="row">
+    <section class="section col-sm-12 col-lg-5">
+        <div class="card">
+            <div class="card-header">
+                <h4>Monitor</h4>
+            </div>
+            <div class="card-body">
+                <div class="">
+                    <div class="input-group mb-3">
+                        <select class="form-select" id="inputGroupSelect01">
+                            <option selected="">Choose...</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                        <label class="input-group-text" for="inputGroupSelect01">Aspersor</label>
+                    </div>
+                </div>
+                <div class="form-group with-title mb-3">
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="50" style="height: 500px;"></textarea>
+                    <label>Monitor de Humedad</label>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section col-sm-12 col-lg-7">
+        <div class="row">
+            <section class="section col-sm-12 col-lg-10">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Formulario de Programación</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <form class="form form-horizontal">
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>Programación Inicio</label>
+                                        </div>
+                                        <div class="col-md-8 form-group">
+                                            <input type="datetime-local" id="date" class="form-control" name="fdate">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Programación fin</label>
+                                        </div>
+                                        <div class="col-md-8 form-group">
+                                            <input type="datetime-local" id="date" class="form-control" name="fdate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="row">
+            <section class="section col-sm-12 col-lg-10">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Lista de Planes</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped" id="table1">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Programación Inicio</th>
+                                    <th>Programación Fin</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for plan in plans %}
+                                <tr>
+                                    <td>{{plan.sprinkler.codSprinkler}}</td>
+                                    <td>{{plan.startTime}}</td>
+                                    <td>{{plan.endTime}}</td>
+                                    <td colspan="2">
+                                        <div class="btn btn-primary me-1 mb-1">Editar</div>
+                                        <div class="btn btn-secondary me-1 mb-1">Eliminar</div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+</div>
+{% endblock %}
