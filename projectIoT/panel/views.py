@@ -25,7 +25,7 @@ def create_sprinkler(request):
 
 def view_sprinklers(request):
     sprinklers = Sprinkler.objects.all()
-    context = {'spriklers': sprinklers}
+    context = {'sprinklers': sprinklers}
     return render(request, 'sprinkler/view_sprinklers.html', context)
 
 
