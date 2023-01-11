@@ -25,7 +25,7 @@ def create_sprinkler(request):
 
 def view_sprinklers(request):
     sprinklers = Sprinkler.objects.all()
-    context = {'spriklers': sprinklers}
+    context = {'sprinklers': sprinklers}
     return render(request, 'sprinkler/view_sprinklers.html', context)
 
 
@@ -50,4 +50,6 @@ def delete_sprinkler(request, sprinkler_id):
 # Plans
 def view_plans(request):
     plans = Plan.objects.all()
-    return render(request, 'plan/view_plans.html', {'plans': plans})
+    sprinklers = Sprinkler.objects.all()
+    context = {'sprinklers': sprinklers, 'plans':plans}
+    return render(request, 'plan/view_plans.html', context)
