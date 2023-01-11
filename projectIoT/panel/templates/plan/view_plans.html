@@ -1,7 +1,82 @@
 {% extends 'layout.html' %}
 
+{% block head %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script>
+        function mostrarValores(humedad) {
+            document.getElementById('monitor').innerHTML += humedad
+
+        }
+
+        function devuelve(topic, message) {
+            if (topic == "datosHumedad") {
+                var data = message.toString();
+                var temp = data.split(",");
+                var humedad = temp[0];
+                mostrarValores(humedad);
+            }
+        }
+
+        const clientId = 'mqttjs_' + Math.random().toString(16).substring(2, 8)
+        const host = 'ws://144.22.61.197:8093/mqtt'
+        const options = {
+            keepalive: 60,
+            clientId: clientId,
+            username: 'cliente',
+            password: '12345',
+            protocolId: 'MQTT',
+            protocolVersion: 4,
+            clean: true,
+            reconnectPeriod: 1000,
+            connectTimeout: 30 * 1000,
+            will: {
+                topic: 'topicGeneral',
+                payload: 'payload',
+                qos: 0,
+                retain: false
+            },
+        }
+
+        console.log(mqtt)
+        console.log('Cliente MQTT Listo')
+        const client = mqtt.connect(host, options)
+
+        client.on('connect', () => {
+            console.log('MQTT Conectado')
+
+            client.subscribe('datosHumedad', { qos: 0 }, (error) => {
+                if (!error) {
+                    console.log('Subscribe OK')
+                }
+                else {
+                    console.log('Subscribe NOK')
+                }
+            })
+
+            client.publish('topicGeneral', 'Mensaje', (error) => {
+                console.log(error || 'Enviado')
+            })
+        })
+
+        client.on('message', (topic, message) => {
+            console.log('Recibido: ', topic, ' => ', message.toString())
+            devuelve(topic, message)
+        })
+
+        client.on('reconnect', (error) => {
+            console.log('Reconectando...')
+        })
+
+        client.on('error', (error) => {
+            console.log('Error de conexión: ' + error)
+        })
+    </script>
+{% endblock %}
+
 
 {% block content %}
+
 <div class="row">
     <section class="section col-sm-12 col-lg-5">
         <div class="card">
@@ -21,7 +96,7 @@
                     </div>
                 </div>
                 <div class="form-group with-title mb-3">
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="50" style="height: 500px;"></textarea>
+                    <textarea class="form-control" id="monitor" rows="50" style="height: 500px;" readonly></textarea>
                     <label>Monitor de Humedad</label>
                 </div>
             </div>
@@ -112,6 +187,7 @@
     </section>
 </div>
 <script>
+    
     sprinkler.addEventListener("change", ()=>{
         let seleccion = sprinkler.value;
         let id = document.querySelector('#sp_id');
