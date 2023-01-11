@@ -65,7 +65,11 @@
                             <td>{{sprinkler.codSprinkler}}</td>
                             <td>{{sprinkler.description}}</td>
                             <td>
+                                {% if sprinkler.state == 1 %}
                                 <span class="badge bg-success">Active</span>
+                                {% else %}
+                                <span class="badge bg-danger">Inactive</span>
+                                {% endif %}
                             </td>
                             <td colspan="2">
                                 <div class="btn btn-primary me-1 mb-1">Activar</div>
