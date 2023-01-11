@@ -61,7 +61,7 @@
 
         client.on('message', (topic, message) => {
             console.log('Recibido: ', topic, ' => ', message.toString())
-            devuelve(topic, JSON.stringify(message))
+            devuelve(topic, message.toString())
         })
 
         client.on('reconnect', (error) => {
