@@ -9,5 +9,5 @@ class SprinklerForm(forms.ModelForm):
 class PlanForm(forms.ModelForm):
     class Meta:
         model = Plan
-        fields = ['startTime', 'endTime', 'sprinkler']
-    Sprinkler = forms.ModelChoiceField(queryset=Sprinkler.objects.all())
+        fields = '__all__'
+    

@@ -45,8 +45,9 @@ def delete_sprinkler(request, id):
 def view_plans(request):
     if request.method == 'POST':
         form = PlanForm(request.POST)
+        form.save()
         if form.is_valid():
-            form.save()
+            #form.save()
             return redirect('list_plans')
     plans = Plan.objects.all()
     sprinklers = Sprinkler.objects.all()
