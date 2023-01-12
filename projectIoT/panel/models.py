@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Sprinkler(models.Model):
-    codSprinkler = models.CharField(max_length=8,unique=True)
+    codSprinkler = models.CharField(max_length=8, unique=True, error_messages={'unique':'El código proporcionado ya existe'})
     description = models.CharField(max_length=50)
     state = models.BooleanField(default=False)
 
