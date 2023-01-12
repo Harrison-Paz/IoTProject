@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Sprinkler(models.Model):
-    codSprinkler = models.CharField(max_length=8)
+    codSprinkler = models.CharField(max_length=8,unique=True)
     description = models.CharField(max_length=50)
     state = models.BooleanField(default=False)
 
