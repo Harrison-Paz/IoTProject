@@ -2,8 +2,18 @@
 
 
 {% block content %}
+
 <div class="row">
     <section class="section col-sm-12 col-lg-5">
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>    
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Formulario Aspersor</h4>
@@ -70,8 +80,9 @@
                             </td>
                             <td colspan="3">
                                 <!-- <a class="btn btn-primary me-1 mb-1" role="button">Activar</a> -->
-                                <a class="btn btn-secondary me-1 mb-1" role="button" href="{% url 'list_plans' %}">Planificar</a>
-                                <a class="btn btn-danger me-1 mb-1" href="{% url 'delete_sprinkler' sprinkler.id %}" role="button">
+                                <a class="btn btn-success me-1 mb-1" role="button" href="{% url 'start_sprinkler' sprinkler.id %}">On</a>
+                                <a class="btn btn-danger me-1 mb-1" role="button" href="{% url 'stop_sprinkler' sprinkler.id %}">Off</a>
+                                <a class="btn btn-warning me-1 mb-1" href="{% url 'delete_sprinkler' sprinkler.id %}" role="button">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill"
                                         viewBox="0 0 16 16">
                                         <path

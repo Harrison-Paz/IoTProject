@@ -4,18 +4,18 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
     <script>
-        function mostrarValores(humedad) {
-            document.getElementById('monitor').innerHTML += `--> ${humedad}\n`
-            console.log(humedad)
-
+        function mostrarValores(aspersor,humedad) {
+            var text = "Aspersor: " + aspersor + "  //  " + "Humedad: "+humedad
+            document.getElementById('monitor').innerHTML += `--> ${text}\n`
         }
 
         function devuelve(topic, message) {
             if (topic == "datosHumedad") {
-                var data = message.toString();
-                var temp = data.split(",");
-                var humedad = temp[0];
-                mostrarValores(data);
+                var json = message.toString();
+                var obj = JSON.parse(json)
+                var humedad = obj.humedad;
+                var aspersor = obj.aspersor
+                mostrarValores(aspersor,humedad);
             }
         }
 
@@ -88,7 +88,7 @@
                 <div class="">
                     <div class="input-group mb-3">
                         <select class="form-select" id="sprinkler">
-                            <option>...</option>
+                            <option value="-1">Seleccione...</option>
                             {% for sprinkler in sprinklers %}
                                 <option value="{{sprinkler.id}}" id="">{{sprinkler.codSprinkler}}</option>
                             {% endfor %}
@@ -106,6 +106,15 @@
     <section class="section col-sm-12 col-lg-7">
         <div class="row">
             <section class="section col-sm-12 col-lg-10">
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </div>    
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Formulario de Programación</h4>
@@ -128,11 +137,8 @@
                                         <div class="col-md-8 form-group">
                                             <input type="datetime-local" id="date" class="form-control" name="endTime">
                                         </div>  
-                                        <div class="col-md-4">
-                                            <label>Aspersor</label>
-                                        </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="text" id="sp_id" class="form-control" name="sprinkler" readonly>
+                                            <input type="hidden" id="sp_id" class="form-control" name="sprinkler" value="-1" readonly>
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end">
                                             <input type="submit" class="btn btn-primary me-1 mb-1" value="Guardar">
