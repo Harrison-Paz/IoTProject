@@ -40,11 +40,13 @@ def stop_sprinkler(request,id):
 
 def edit_sprinkler(request):
     if request.method == 'POST':
-        sprinkler = Sprinkler.objects.get(id=request.POST.get('id'))
-        form = SprinklerFormEdit(request.POST, instance=sprinkler)
-        if form.is_valid():
-            sprinkler = form.save()
-            return redirect('list_sprinklers')
+        idSprinkler = request.POST.get('id')
+        if (idSprinkler != ''):
+            sprinkler = Sprinkler.objects.get(id=idSprinkler)
+            form = SprinklerFormEdit(request.POST, instance=sprinkler)
+            if form.is_valid():
+                sprinkler = form.save()
+                return redirect('list_sprinklers')
     return redirect('list_sprinklers')
 
 def delete_sprinkler(request, id):
