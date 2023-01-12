@@ -47,4 +47,17 @@ class PlanForm(forms.ModelForm):
                     self._errors['sprinkler'] = self.error_class(['La fecha interfiere con otra ya programada.'])
 
         return self.cleaned_data
+
+class SprinklerFormEdit(forms.ModelForm):
     
+    class Meta:
+        model = Sprinkler
+        fields = '__all__'
+
+    def clean(self):
+        super(SprinklerFormEdit,self).clean()
+
+        codigo = self.cleaned_data.get('codSprinkler')
+        sprinkler = Sprinkler.objects.get(codSprinkler=codigo)
+
+        return self.cleaned_data

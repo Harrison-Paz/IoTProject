@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Sprinkler, Plan
-from .forms import SprinklerForm, PlanForm
+from .forms import SprinklerForm, SprinklerFormEdit, PlanForm
 from django.contrib import messages
 
 
@@ -38,17 +38,14 @@ def stop_sprinkler(request,id):
     return redirect('list_sprinklers')
 
 
-# def edit_sprinkler(request, id):
-#     sprinkler = get_object_or_404(Sprinkler, id=id)
-#     if request.method == 'POST':
-#         form = SprinklerForm(request.POST, instance=sprinkler)
-#         if form.is_valid():
-#             sprinkler = form.save()
-#             return redirect('list_sprinklers')
-#     else:
-#         form = SprinklerForm(instance=sprinkler)
-#     context = {'form': form}
-#     return render(request, 'sprinkler/view_Sprinklers.html', context)
+def edit_sprinkler(request):
+    if request.method == 'POST':
+        sprinkler = Sprinkler.objects.get(id=request.POST.get('id'))
+        form = SprinklerFormEdit(request.POST, instance=sprinkler)
+        if form.is_valid():
+            sprinkler = form.save()
+            return redirect('list_sprinklers')
+    return redirect('list_sprinklers')
 
 def delete_sprinkler(request, id):
     sprinkler = get_object_or_404(Sprinkler, id=id)
