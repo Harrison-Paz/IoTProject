@@ -15,7 +15,18 @@
                 var obj = JSON.parse(json)
                 var humedad = obj.humedad;
                 var aspersor = obj.aspersor
-                mostrarValores(aspersor,humedad);
+
+                var monitor = document.getElementById("sprinkler")
+                var valMonitor = monitor.value
+                var codMonitor = monitor.options[monitor.selectedIndex].text
+
+                if (valMonitor == "-1") {
+                    mostrarValores(aspersor,humedad);
+                } else {
+                    if (codMonitor == aspersor) {
+                        mostrarValores(aspersor,humedad);
+                    }
+                }
             }
         }
 
@@ -97,7 +108,7 @@
                     </div>
                 </div>
                 <div class="form-group with-title mb-3">
-                    <textarea class="form-control" id="monitor" rows="50" style="height: 500px;" readonly></textarea>
+                    <textarea class="form-control" id="monitor" rows="50" style="height: 500px; font-size: 12px" readonly></textarea>
                     <label>Monitor de Humedad</label>
                 </div>
             </div>
@@ -129,13 +140,13 @@
                                             <label>Programación Inicio</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="datetime-local" id="date" class="form-control" name="startTime">
+                                            <input type="datetime-local" id="dateStart" class="form-control" name="startTime">
                                         </div>
                                         <div class="col-md-4">
                                             <label>Programación fin</label>
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <input type="datetime-local" id="date" class="form-control" name="endTime">
+                                            <input type="datetime-local" id="dateEnd" class="form-control" name="endTime">
                                         </div>  
                                         <div class="col-md-8 form-group">
                                             <input type="hidden" id="sp_id" class="form-control" name="sprinkler" value="-1" readonly>
@@ -198,9 +209,7 @@
     sprinkler.addEventListener("change", ()=>{
         let seleccion = sprinkler.value;
         let id = document.querySelector('#sp_id');
-        console.log(seleccion);
         id.value = seleccion;
-        console.log(seleccion);
     })
 </script>
 {% endblock %}
