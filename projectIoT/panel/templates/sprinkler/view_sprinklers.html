@@ -28,13 +28,19 @@
                                     <label>Codigo Aspersor</label>
                                 </div>
                                 <div class="col-md-8 form-group">
-                                    <input type="text" id="codSprinkler" class="form-control" name="codSprinkler" value="{{form.value | default:''}}">
+                                    <input type="text" id="codSprinkler" class="form-control" name="codSprinkler" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label>Descripción</label>
                                 </div>
                                 <div class="col-md-8 form-group">
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3"></textarea>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" required></textarea>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Límite de Humedad</label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input type="number" id="limitSprinkler" class="form-control" name="limit" min="0" max="100" step="1" pattern="\d*" required>
                                 </div>
                                 <div class="col-sm-12 d-flex justify-content-end">
                                     <input type="submit" class="btn btn-primary me-1 mb-1" value="Guardar">
@@ -62,14 +68,20 @@
                                     <label>Codigo Aspersor</label>
                                 </div>
                                 <div class="col-md-8 form-group">
-                                    <input readonly type="hidden" id="editIdSprinkler" class="form-control" name="id">
-                                    <input readonly type="text" id="editCodSprinkler" class="form-control" name="codSprinkler">
+                                    <input readonly type="hidden" id="editIdSprinkler" class="form-control" name="id" required>
+                                    <input readonly type="text" id="editCodSprinkler" class="form-control" name="codSprinkler" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label>Descripción</label>
                                 </div>
                                 <div class="col-md-8 form-group">
-                                    <textarea class="form-control" id="editDescSprinkler" name="description" rows="3"></textarea>
+                                    <textarea class="form-control" id="editDescSprinkler" name="description" rows="3" required></textarea>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Límite de Humedad</label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <input type="number" id="editLimitSprinkler" class="form-control" name="limit" min="0" max="100" step="1" pattern="\d*" required>
                                 </div>
                                 <div class="col-sm-12 d-flex justify-content-end">
                                     <input type="submit" class="btn btn-primary me-1 mb-1" value="Guardar">
@@ -96,6 +108,7 @@
                             <th>#</th>
                             <th>Código</th>
                             <th>Descripción</th>
+                            <th>Limite</th>
                             <th>Estado</th>
                             <th>Opciones</th>
                         </tr>
@@ -106,6 +119,7 @@
                             <td>{{sprinkler.id}}</td>
                             <td>{{sprinkler.codSprinkler}}</td>
                             <td>{{sprinkler.description}}</td>
+                            <td>{{sprinkler.limit}}%</td>
                             <td>
                                 {% if sprinkler.state == 1 %}
                                 <span class="badge bg-success">Active</span>
@@ -117,7 +131,7 @@
                                 <!-- <a class="btn btn-primary me-1 mb-1" role="button">Activar</a> -->
                                 <a class="btn btn-success me-1 mb-1" role="button" href="{% url 'start_sprinkler' sprinkler.id %}">On</a>
                                 <a class="btn btn-danger me-1 mb-1" role="button" href="{% url 'stop_sprinkler' sprinkler.id %}">Off</a>
-                                <a class="btn btn-secondary me-1 mb-1" role="button" href="#" onclick="editarValores('{{sprinkler.id}}','{{sprinkler.codSprinkler}}','{{sprinkler.description}}')"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-secondary me-1 mb-1" role="button" href="#" onclick="editarValores('{{sprinkler.id}}','{{sprinkler.codSprinkler}}','{{sprinkler.description}}','{{sprinkler.limit}}')"><i class="fa fa-edit"></i></a>
                                 <a class="btn btn-dark me-1 mb-1" href="{% url 'delete_sprinkler' sprinkler.id %}" role="button">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill"
                                         viewBox="0 0 16 16">
@@ -136,10 +150,11 @@
 </div>
 <script>
 
-    function editarValores(id,cod,desc) {
+    function editarValores(id,cod,desc,lim) {
         document.getElementById('editIdSprinkler').value = id
         document.getElementById('editCodSprinkler').value = cod
         document.getElementById('editDescSprinkler').innerHTML = desc
+        document.getElementById('editLimitSprinkler').value = lim
     }
 
 </script>
