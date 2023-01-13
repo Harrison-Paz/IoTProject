@@ -47,14 +47,17 @@ class PlanForm(forms.ModelForm):
         if (id == "-1" or id == None):
             self._errors['sprinkler'] = self.error_class(['Recuerde seleccionar un aspersor.'])
 
-        for plan in plans:
-            pId = plan.sprinkler
-            pStart = plan.startTime
-            pEnd = plan.endTime
+        if (inicio>fin):
+            self._errors['sprinkler'] = self.error_class(['La fecha de inicio no puede ser mayor que la de finalización.'])
+        else:
+            for plan in plans:
+                pId = plan.sprinkler
+                pStart = plan.startTime
+                pEnd = plan.endTime
 
-            if (pId == id):
-                if not (((inicio < pStart) and (fin < pStart)) or ((inicio > pEnd) and (fin > pEnd ))):
-                    self._errors['sprinkler'] = self.error_class(['La fecha interfiere con otra ya programada.'])
+                if (pId == id):
+                    if not (((inicio < pStart) and (fin < pStart)) or ((inicio > pEnd) and (fin > pEnd ))):
+                        self._errors['sprinkler'] = self.error_class(['La fecha interfiere con otra ya programada.'])
 
         return self.cleaned_data
 
