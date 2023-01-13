@@ -24,23 +24,41 @@
                         {% csrf_token %}
                         <div class="form-body">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <label>Codigo Aspersor</label>
+                                <div class="col-md-4" align="right">
+                                    <label>Codigo</label>
                                 </div>
                                 <div class="col-md-8 form-group">
                                     <input type="text" id="codSprinkler" class="form-control" name="codSprinkler" required>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4" align="right">
                                     <label>Descripción</label>
                                 </div>
                                 <div class="col-md-8 form-group">
                                     <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" required></textarea>
                                 </div>
-                                <div class="col-md-4">
-                                    <label>Límite de Humedad</label>
+                                <div class="col-md-4" align="right">
+                                    <label>Límite</label>
                                 </div>
                                 <div class="col-md-8 form-group">
                                     <input type="number" id="limitSprinkler" class="form-control" name="limit" min="0" max="100" step="1" pattern="\d*" required>
+                                </div>
+                                <div class="col-md-4" align="right">
+                                    <label>Auto Encendido</label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <select class="form-select" id="sprinkler" name="autoOn" required>
+                                        <option value="1">Activado</option>
+                                        <option value="0">Desactivado</option> 
+                                    </select>
+                                </div>
+                                <div class="col-md-4" align="right">
+                                    <label>Auto Apagado</label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <select class="form-select" id="sprinkler" name="autoOff" required>
+                                        <option value="1">Activado</option>
+                                        <option value="0">Desactivado</option> 
+                                    </select>
                                 </div>
                                 <div class="col-sm-12 d-flex justify-content-end">
                                     <input type="submit" class="btn btn-primary me-1 mb-1" value="Guardar">
@@ -64,24 +82,42 @@
                         {% csrf_token %}
                         <div class="form-body">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <label>Codigo Aspersor</label>
+                                <div class="col-md-4" align="right">
+                                    <label>Codigo</label>
                                 </div>
                                 <div class="col-md-8 form-group">
                                     <input readonly type="hidden" id="editIdSprinkler" class="form-control" name="id" required>
                                     <input readonly type="text" id="editCodSprinkler" class="form-control" name="codSprinkler" required>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4" align="right">
                                     <label>Descripción</label>
                                 </div>
                                 <div class="col-md-8 form-group">
                                     <textarea class="form-control" id="editDescSprinkler" name="description" rows="3" required></textarea>
                                 </div>
-                                <div class="col-md-4">
-                                    <label>Límite de Humedad</label>
+                                <div class="col-md-4" align="right">
+                                    <label>Límite</label>
                                 </div>
                                 <div class="col-md-8 form-group">
                                     <input type="number" id="editLimitSprinkler" class="form-control" name="limit" min="0" max="100" step="1" pattern="\d*" required>
+                                </div>
+                                <div class="col-md-4" align="right">
+                                    <label>Auto Encendido</label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <select class="form-select form-control" id="editAutoOn" name="autoOn" required>
+                                        <option value="1">Activado</option>
+                                        <option value="0">Desactivado</option> 
+                                    </select>
+                                </div>
+                                <div class="col-md-4" align="right">
+                                    <label>Auto Apagado</label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <select class="form-select form-control" id="editAutoOff" name="autoOff" required>
+                                        <option value="1">Activado</option>
+                                        <option value="0">Desactivado</option> 
+                                    </select>
                                 </div>
                                 <div class="col-sm-12 d-flex justify-content-end">
                                     <input type="submit" class="btn btn-primary me-1 mb-1" value="Guardar">
@@ -109,6 +145,8 @@
                             <th>Código</th>
                             <th>Descripción</th>
                             <th>Limite</th>
+                            <th>A.ON</th>
+                            <th>A.OFF</th>
                             <th>Estado</th>
                             <th>Opciones</th>
                         </tr>
@@ -121,17 +159,31 @@
                             <td>{{sprinkler.description}}</td>
                             <td>{{sprinkler.limit}}%</td>
                             <td>
-                                {% if sprinkler.state == 1 %}
-                                <span class="badge bg-success">Active</span>
+                                {% if sprinkler.autoOn == '1' %}
+                                <span class="badge bg-success">On</span>
                                 {% else %}
-                                <span class="badge bg-danger">Inactive</span>
+                                <span class="badge bg-danger">Off</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if sprinkler.autoOff == '1' %}
+                                <span class="badge bg-success">On</span>
+                                {% else %}
+                                <span class="badge bg-danger">Off</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if sprinkler.state == 1 %}
+                                <span class="badge bg-success">Encendido</span>
+                                {% else %}
+                                <span class="badge bg-danger">Apagado</span>
                                 {% endif %}
                             </td>
                             <td colspan="3">
                                 <!-- <a class="btn btn-primary me-1 mb-1" role="button">Activar</a> -->
                                 <a class="btn btn-success me-1 mb-1" role="button" href="{% url 'start_sprinkler' sprinkler.id %}">On</a>
                                 <a class="btn btn-danger me-1 mb-1" role="button" href="{% url 'stop_sprinkler' sprinkler.id %}">Off</a>
-                                <a class="btn btn-secondary me-1 mb-1" role="button" href="#" onclick="editarValores('{{sprinkler.id}}','{{sprinkler.codSprinkler}}','{{sprinkler.description}}','{{sprinkler.limit}}')"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-secondary me-1 mb-1" role="button" href="#" onclick="editarValores('{{sprinkler.id}}','{{sprinkler.codSprinkler}}','{{sprinkler.description}}','{{sprinkler.limit}}','{{sprinkler.autoOn}}','{{sprinkler.autoOff}}')"><i class="fa fa-edit"></i></a>
                                 <a class="btn btn-dark me-1 mb-1" href="{% url 'delete_sprinkler' sprinkler.id %}" role="button">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill"
                                         viewBox="0 0 16 16">
@@ -150,11 +202,13 @@
 </div>
 <script>
 
-    function editarValores(id,cod,desc,lim) {
+    function editarValores(id,cod,desc,lim,aon,aoff) {
         document.getElementById('editIdSprinkler').value = id
         document.getElementById('editCodSprinkler').value = cod
         document.getElementById('editDescSprinkler').innerHTML = desc
         document.getElementById('editLimitSprinkler').value = lim
+        document.getElementById('editAutoOn').value = aon
+        document.getElementById('editAutoOff').value = aoff
     }
 
 </script>

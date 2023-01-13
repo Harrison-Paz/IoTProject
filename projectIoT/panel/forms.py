@@ -20,7 +20,10 @@ class SprinklerForm(forms.ModelForm):
             if(descripcion == None):
                 self._errors['codSprinkler'] = self.error_class(['La descripción no puede estar en blanco'])
             else:
-                sprinkler = Sprinkler.objects.get(codSprinkler=codigo)
+                try:
+                    sprinkler = Sprinkler.objects.get(codSprinkler=codigo)
+                except Sprinkler.DoesNotExist:
+                    sprinkler = None
                 if (sprinkler is not None):
                     self._errors['codSprinkler'] = self.error_class(['El código proporcionado ya existe.'])
 
@@ -66,5 +69,11 @@ class SprinklerFormEdit(forms.ModelForm):
 
         codigo = self.cleaned_data.get('codSprinkler')
         sprinkler = Sprinkler.objects.get(codSprinkler=codigo)
+        autoOn = self.cleaned_data.get('autoOn')
+        autoOff = self.cleaned_data.get('autoOff')
+        if(autoOn):
+            print("Activado")
+        else:
+            print("Desactivado")
 
         return self.cleaned_data

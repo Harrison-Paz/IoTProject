@@ -12,6 +12,8 @@ class Sprinkler(models.Model):
         MaxValueValidator(100),
         MinValueValidator(1)
     ])
+    autoOn= models.CharField(max_length=1,default='1')
+    autoOff = models.CharField(max_length=1,default='1')
 
     def __str__(self):
         return self.codSprinkler
