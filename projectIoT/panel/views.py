@@ -3,15 +3,16 @@ from django.http import HttpResponse
 from .models import Sprinkler, Plan
 from .forms import SprinklerForm, SprinklerFormEdit, PlanForm
 from django.contrib import messages
-
+from django.contrib.auth.decorators import login_required
 
 #home
 
+@login_required
 def home(request):
     return render(request, 'dashboard.html')
 
 
-#sprinkler
+@login_required
 def view_sprinklers(request):
     sprinklers = Sprinkler.objects.all()
     context = {'sprinklers': sprinklers}
@@ -25,19 +26,21 @@ def view_sprinklers(request):
             return render(request, 'sprinkler/view_sprinklers.html', context)
     return render(request, 'sprinkler/view_sprinklers.html', context)
 
+@login_required
 def start_sprinkler(request,id):
     sprinkler = Sprinkler.objects.get(id=id)
     sprinkler.state = True
     sprinkler.save()
     return redirect('list_sprinklers')
 
+@login_required
 def stop_sprinkler(request,id):
     sprinkler = Sprinkler.objects.get(id=id)
     sprinkler.state = False
     sprinkler.save()
     return redirect('list_sprinklers')
 
-
+@login_required
 def edit_sprinkler(request):
     if request.method == 'POST':
         idSprinkler = request.POST.get('id')
@@ -49,6 +52,7 @@ def edit_sprinkler(request):
                 return redirect('list_sprinklers')
     return redirect('list_sprinklers')
 
+@login_required
 def delete_sprinkler(request, id):
     sprinkler = get_object_or_404(Sprinkler, id=id)
     sprinkler.delete()
@@ -56,7 +60,7 @@ def delete_sprinkler(request, id):
 
 
 # Plans
-
+@login_required
 def view_plans(request):
     plans = Plan.objects.all()
     sprinklers = Sprinkler.objects.all()
@@ -71,7 +75,7 @@ def view_plans(request):
             return render(request, 'plan/view_plans.html', context)
     return render(request, 'plan/view_plans.html', context)
 
-
+@login_required
 def delete_plan(request, id):
     sprinkler = get_object_or_404(Plan, id=id)
     sprinkler.delete()
