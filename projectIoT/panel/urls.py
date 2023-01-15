@@ -10,4 +10,5 @@ urlpatterns = [
     path('start/<int:id>/', views.start_sprinkler, name='start_sprinkler'),
     path('stop/<int:id>/', views.stop_sprinkler, name='stop_sprinkler'),
     path('edit/', views.edit_sprinkler, name='edit_sprinkler'),
+    path('logs/', views.view_logs, name='logs'),
 ]

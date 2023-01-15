@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+<div class="row">
+    <section class="section col">
+        <div class="card">
+            <div class="card-header">
+                <h4>Registro</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped" id="table1">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Descripción</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in logs %}
+                        <tr>
+                            <td>{{log.user}}</td>
+                            <td>{{log.description}}</td>
+                            <td>{{log.date}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% include "pagination.html" with page_obj=logs %}
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

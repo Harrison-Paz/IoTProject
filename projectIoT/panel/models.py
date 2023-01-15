@@ -16,13 +16,12 @@ class Sprinkler(models.Model):
     autoOn= models.CharField(max_length=1,default='1')
     autoOff = models.CharField(max_length=1,default='1')
 
-    def __str__(self):
-        return self.codSprinkler
-
 class Plan(models.Model):
     sprinkler = models.ForeignKey(Sprinkler, on_delete=models.CASCADE)
     startTime = models.DateTimeField()
     endTime = models.DateTimeField()
 
-    def __str__(self):
-        return f"{self.endTime}"
+class Log(models.Model):
+    user = models.CharField(max_length=150, unique=False)
+    description = models.CharField(max_length=150)
+    date = models.DateTimeField()
