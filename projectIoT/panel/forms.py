@@ -65,18 +65,9 @@ class SprinklerFormEdit(forms.ModelForm):
     
     class Meta:
         model = Sprinkler
-        fields = '__all__'
+        fields = ['id','codSprinkler','description','limit','autoOn','autoOff']
 
     def clean(self):
         super(SprinklerFormEdit,self).clean()
-
-        codigo = self.cleaned_data.get('codSprinkler')
-        sprinkler = Sprinkler.objects.get(codSprinkler=codigo)
-        autoOn = self.cleaned_data.get('autoOn')
-        autoOff = self.cleaned_data.get('autoOff')
-        if(autoOn):
-            print("Activado")
-        else:
-            print("Desactivado")
 
         return self.cleaned_data

@@ -6,7 +6,8 @@
     <script>
         function mostrarValores(aspersor,humedad) {
             var text = "Aspersor: " + aspersor + "  //  " + "Humedad: "+humedad
-            document.getElementById('monitor').innerHTML += `--> ${text}\n`
+            var monitor = document.getElementById('monitor')
+            monitor.innerHTML = `--> ${text}\n` + monitor.innerHTML
         }
 
         function devuelve(topic, message) {

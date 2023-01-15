@@ -71,13 +71,13 @@ def edit_sprinkler(request):
         idSprinkler = request.POST.get('id')
         if (idSprinkler != ''):
             sprinkler = Sprinkler.objects.get(id=idSprinkler)
+            print("Estado: "+str(sprinkler.state))
             form = SprinklerFormEdit(request.POST, instance=sprinkler)
             if form.is_valid():
                 sprinkler = form.save()
                 usuario = request.user
                 codigo = request.POST.get('codSprinkler')
                 current_time = datetime.datetime.now()
-                print(current_time)
                 log = Log()
                 log.user = usuario
                 log.description = "Edito Aspersor ("+ str(codigo) +")"
