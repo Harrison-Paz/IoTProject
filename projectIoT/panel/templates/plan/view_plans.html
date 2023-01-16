@@ -36,7 +36,7 @@
         const options = {
             keepalive: 60,
             clientId: clientId,
-            username: 'cliente',
+            username: 'monitor',
             password: '12345',
             protocolId: 'MQTT',
             protocolVersion: 4,
@@ -73,7 +73,6 @@
         })
 
         client.on('message', (topic, message) => {
-            console.log('Recibido: ', topic, ' => ', message.toString())
             devuelve(topic, message.toString())
         })
 
